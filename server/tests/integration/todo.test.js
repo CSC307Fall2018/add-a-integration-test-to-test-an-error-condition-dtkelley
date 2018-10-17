@@ -47,5 +47,21 @@ describe('/todos', () => {
           return expect(response.body.subject).toEqual('test');
         });
     });
+
+    it('should throw error', () => {
+      return request(app).post(rootPath + "/failedPath").expect(404);
+    })
   });
+
+  describe('DELETE /', () => {
+    it('should delete one todo item', () => {
+      return ToDo.create({
+        subject: 'test',
+      }).then((item) => {
+        return request(app).delete(rootPath + '/' + item.id).expect((response) => {
+          return expect(response.body.delete).toEqual(true);
+        });
+      });
+    })
+  })
 });
